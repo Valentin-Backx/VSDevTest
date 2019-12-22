@@ -11,10 +11,18 @@ namespace Test
 
         public Button startGameButton;
 
-        public Button endGameButton; 
+        public Button endGameButton;
+
+        [SerializeField]
+        GameObject m_topAdsPrefab=null;
+
+        [SerializeField]
+        RGPDManager m_rgpdManager=null;
 
         private void Awake()
         {
+            GameObject.Instantiate(m_topAdsPrefab);
+
             showAdButton.onClick.AddListener(ShowAdClick);
             startGameButton.onClick.AddListener(StartGameClick);
             endGameButton.onClick.AddListener(EndGameClick);
@@ -27,9 +35,12 @@ namespace Test
             VoodooSauce.ShowAd(); 
         }
 
+        /// <summary>
+        /// here the ui event callback atempts to retrieve the rgpd consent value before starting the game
+        /// </summary>
         private void StartGameClick()
         {
-            VoodooSauce.StartGame(); 
+            m_rgpdManager.RetrieveRGPDValue(VoodooSauce.StartGame);
         }
 
         private void EndGameClick()
